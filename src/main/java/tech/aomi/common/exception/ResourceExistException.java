@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * @author 田尘殇Sean(sean.snow @ live.com) Create At 16/7/25
  */
@@ -24,7 +26,7 @@ public class ResourceExistException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.RESOURCE_EXIST;
     }
 }

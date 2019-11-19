@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/7/2
  */
@@ -24,7 +26,7 @@ public class SignatureException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.SIGNATURE_INVALID;
     }
 

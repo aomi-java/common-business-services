@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * @author Sean createAt 2018/11/22
  */
@@ -24,7 +26,7 @@ public class ExpiredException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.EXPIRED_ERROR;
     }
 }

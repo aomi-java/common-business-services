@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * 资源不存在异常
  *
@@ -27,7 +29,7 @@ public class ResourceNonExistException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.RESOURCE_NON_EXIST;
     }
 }

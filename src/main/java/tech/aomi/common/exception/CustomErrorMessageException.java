@@ -33,7 +33,7 @@ public class CustomErrorMessageException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.CUSTOM_ERROR_MESSAGE;
     }
 

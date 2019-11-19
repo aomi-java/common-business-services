@@ -1,5 +1,6 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -35,7 +36,7 @@ public class MaxValueException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.MAX_VALUE;
     }
 

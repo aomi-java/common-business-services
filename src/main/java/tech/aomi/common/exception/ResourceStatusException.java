@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * 资源不可用
  * 例如：
@@ -29,7 +31,7 @@ public class ResourceStatusException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.RESOURCE_STATUS;
     }
 }

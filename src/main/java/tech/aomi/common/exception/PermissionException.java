@@ -1,5 +1,7 @@
 package tech.aomi.common.exception;
 
+import java.io.Serializable;
+
 /**
  * 无访问权限异常
  *
@@ -26,7 +28,7 @@ public class PermissionException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.PERMISSION_ACCESS;
     }
 }

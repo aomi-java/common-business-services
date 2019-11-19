@@ -41,7 +41,7 @@ public class VersionException extends ServiceException {
     }
 
     @Override
-    public ErrorCode getErrorCode() {
+    public Serializable getErrorCode() {
         return ErrorCode.VERSION_ERROR;
     }
 
