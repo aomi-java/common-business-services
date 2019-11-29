@@ -3,32 +3,32 @@ package tech.aomi.common.exception;
 import java.io.Serializable;
 
 /**
- * 无访问权限异常
+ * 拒绝访问异常
  *
  * @author 田尘殇Sean(sean.snow @ live.com) Create At 16/9/9
  */
-public class PermissionException extends ServiceException {
+public class AccessDeniedException extends ServiceException {
 
     private static final long serialVersionUID = 191621824668303402L;
 
-    public PermissionException() {
+    public AccessDeniedException() {
         super();
     }
 
-    public PermissionException(String message) {
+    public AccessDeniedException(String message) {
         super(message);
     }
 
-    public PermissionException(String message, Throwable cause) {
+    public AccessDeniedException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public PermissionException(Throwable cause) {
+    public AccessDeniedException(Throwable cause) {
         super(cause);
     }
 
     @Override
     public Serializable getErrorCode() {
-        return ErrorCode.PERMISSION_ACCESS;
+        return ErrorCode.ACCESS_DENIED;
     }
 }
