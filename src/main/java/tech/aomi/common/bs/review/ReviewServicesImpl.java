@@ -84,6 +84,7 @@ public class ReviewServicesImpl implements ReviewServices {
             review.setStatus(FINISH);
             review.setResult(ReviewResult.RESOLVE);
             review.setResultDescribe(reviewHistory.getDescribe());
+            review.setCurrentReviewUserIndex(review.getNextReviewUserIndex());
             return mongoTemplate.save(review);
         }
         review.setCurrentReviewUserIndex(review.getNextReviewUserIndex());
