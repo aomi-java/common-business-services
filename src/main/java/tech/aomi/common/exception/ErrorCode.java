@@ -30,7 +30,7 @@ public enum ErrorCode {
     UNAUTHORIZED("3210", "unauthorized"),
     INVALID_CREDENTIAL("3211", "invalid credential"),
 
-    PERMISSION_ACCESS("3250", "No access permission"),
+    ACCESS_DENIED("3250", "No access permission"),
     // 从 3200 - 3250 为系统类错误代码结束
 
 
