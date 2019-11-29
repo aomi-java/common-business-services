@@ -11,7 +11,7 @@ import software.sitb.common.entity.review.ReviewHistory;
 import software.sitb.common.entity.review.ReviewResult;
 import software.sitb.common.entity.review.ReviewUser;
 import software.sitb.common.entity.system.Operator;
-import tech.aomi.common.exception.PermissionException;
+import tech.aomi.common.exception.AccessDeniedException;
 import tech.aomi.common.exception.ResourceNonExistException;
 import tech.aomi.common.exception.ResourceStatusException;
 import tech.aomi.common.exception.ServiceException;
@@ -65,7 +65,7 @@ public class ReviewServicesImpl implements ReviewServices {
             isReview = true;
         }
         if (!isReview) {
-            throw new PermissionException("当前操作员不能审核");
+            throw new AccessDeniedException("当前操作员不能审核");
         }
 
         reviewHistory.setReviewAt(new Date());
