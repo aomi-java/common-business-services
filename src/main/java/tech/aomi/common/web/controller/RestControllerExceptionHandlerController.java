@@ -3,7 +3,6 @@ package tech.aomi.common.web.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,8 +15,6 @@ import tech.aomi.common.exception.ErrorCode;
 import tech.aomi.common.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,12 +70,6 @@ public class RestControllerExceptionHandlerController {
             args.put(error.getField(), error.getDefaultMessage());
         }
         return Result.create(ErrorCode.PARAMS_ERROR, e.getMessage(), args);
-    }
-
-    @ExceptionHandler({BadCredentialsException.class})
-    public Result badCredentialsException(BadCredentialsException e) {
-        LOGGER.error("无效的授权信息");
-        return new Result(ErrorCode.UNAUTHORIZED.getCode(), e.getMessage(), null);
     }
 
     @ExceptionHandler({ServiceException.class})
