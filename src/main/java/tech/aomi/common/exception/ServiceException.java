@@ -11,6 +11,10 @@ public class ServiceException extends RuntimeException {
 
     private static final long serialVersionUID = -8914766196902007963L;
 
+    private Serializable errorCode = ErrorCode.EXCEPTION;
+
+    private Serializable payload = null;
+
     public ServiceException() {
         super();
     }
@@ -27,18 +31,20 @@ public class ServiceException extends RuntimeException {
         super(cause);
     }
 
-    /**
-     * @return 错误代码
-     */
     public Serializable getErrorCode() {
-        return ErrorCode.EXCEPTION;
+        return errorCode;
     }
 
-    /**
-     * @return 错误代码对应的数据信息
-     */
+    public void setErrorCode(Serializable errorCode) {
+        this.errorCode = errorCode;
+    }
+
     public Serializable getPayload() {
-        return null;
+        return payload;
+    }
+
+    public void setPayload(Serializable payload) {
+        this.payload = payload;
     }
 }
 
