@@ -16,23 +16,23 @@ public abstract class SecurityExpression {
 
     private String method;
 
-    public static <T> String and(T... items) {
-        List<String> tmp = Arrays.stream(items).map(Object::toString).collect(Collectors.toList());
+    public static <T extends SecurityExpression> String and(SecurityExpression... items) {
+        List<String> tmp = Arrays.stream(items).map(SecurityExpression::toString).collect(Collectors.toList());
         return String.join(" and ", tmp);
     }
 
-    public static <T> String and(List<T> items) {
-        List<String> tmp = items.stream().map(Object::toString).collect(Collectors.toList());
+    public static  String and(List<SecurityExpression> items) {
+        List<String> tmp = items.stream().map(SecurityExpression::toString).collect(Collectors.toList());
         return String.join(" and ", tmp);
     }
 
-    public static <T> String or(T... items) {
-        List<String> tmp = Arrays.stream(items).map(Object::toString).collect(Collectors.toList());
+    public static String or(SecurityExpression... items) {
+        List<String> tmp = Arrays.stream(items).map(SecurityExpression::toString).collect(Collectors.toList());
         return String.join(" or ", tmp);
     }
 
-    public static <T> String or(List<T> items) {
-        List<String> tmp = items.stream().map(Object::toString).collect(Collectors.toList());
+    public static String or(List<SecurityExpression> items) {
+        List<String> tmp = items.stream().map(SecurityExpression::toString).collect(Collectors.toList());
         return String.join(" or ", tmp);
     }
 
