@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '1.0.0.Alpha.6'
+version '1.0.0.Alpha.7'
 
 apply from: 'https://onegit.app/enterprise/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/java.gradle'
@@ -23,6 +23,8 @@ dependencies {
 
     compileOnly lib.spring_boot_web
     compileOnly lib.spring_boot_data_redis
+
+    compileOnly lib.spring_cloud_kubernetes
 
     compileOnly lib.spring_cloud_oauth
 
