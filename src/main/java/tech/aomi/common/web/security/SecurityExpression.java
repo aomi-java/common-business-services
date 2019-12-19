@@ -1,6 +1,7 @@
 package tech.aomi.common.web.security;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 /**
  * @author Sean Create At 2019/12/19
  */
+@Getter
 @AllArgsConstructor
 public abstract class SecurityExpression {
 
@@ -21,7 +23,7 @@ public abstract class SecurityExpression {
         return String.join(" and ", tmp);
     }
 
-    public static  String and(List<SecurityExpression> items) {
+    public static String and(List<SecurityExpression> items) {
         List<String> tmp = items.stream().map(SecurityExpression::toString).collect(Collectors.toList());
         return String.join(" and ", tmp);
     }
