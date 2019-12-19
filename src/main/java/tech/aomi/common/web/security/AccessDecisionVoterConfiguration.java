@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -28,6 +29,7 @@ public class AccessDecisionVoterConfiguration {
         };
     }
 
+    @Order(9999)
     @Configuration
     public static class AccessDecisionVoterConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
