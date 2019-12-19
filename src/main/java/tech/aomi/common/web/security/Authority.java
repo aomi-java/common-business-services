@@ -13,4 +13,8 @@ public class Authority extends SecurityExpression {
         this(authority, "hasAuthority");
     }
 
+    public static String toString(String authority) {
+        return new Authority(authority).toString();
+    }
+
 }

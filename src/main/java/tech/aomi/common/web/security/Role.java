@@ -11,4 +11,8 @@ public class Role extends SecurityExpression {
     public Role(String role) {
         this(role, "hasRole");
     }
+
+    public static String toString(String role) {
+        return new Role(role).toString();
+    }
 }
