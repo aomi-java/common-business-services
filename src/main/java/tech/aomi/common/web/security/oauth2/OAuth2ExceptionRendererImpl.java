@@ -1,12 +1,12 @@
-package tech.aomi.common.web.security;
+package tech.aomi.common.web.security.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.DefaultOAuth2ExceptionRenderer;
 import org.springframework.web.context.request.ServletWebRequest;
-import tech.aomi.common.web.controller.Result;
 import tech.aomi.common.exception.ErrorCode;
+import tech.aomi.common.web.controller.Result;
 
 /**
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/7/12

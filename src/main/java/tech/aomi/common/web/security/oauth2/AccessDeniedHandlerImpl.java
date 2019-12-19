@@ -1,4 +1,4 @@
-package tech.aomi.common.web.security;
+package tech.aomi.common.web.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -6,8 +6,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import tech.aomi.common.web.controller.Result;
 import tech.aomi.common.exception.ErrorCode;
+import tech.aomi.common.web.controller.Result;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
