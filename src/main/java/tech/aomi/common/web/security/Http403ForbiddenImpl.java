@@ -1,15 +1,14 @@
-package tech.aomi.common.web.security.oauth2;
+package tech.aomi.common.web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import tech.aomi.common.exception.ErrorCode;
 import tech.aomi.common.web.controller.Result;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,14 +19,14 @@ import java.io.IOException;
  *
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/7/10
  */
-public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
+public class Http403ForbiddenImpl extends Http403ForbiddenEntryPoint {
 
     @Autowired
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        Result result = new Result(ErrorCode.ACCESS_DENIED.getCode(), accessDeniedException.getMessage());
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException {
+        Result result = new Result(ErrorCode.UNAUTHORIZED.getCode(), arg2.getMessage());
         mappingJackson2HttpMessageConverter.write(result.getBody(), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
     }
 
