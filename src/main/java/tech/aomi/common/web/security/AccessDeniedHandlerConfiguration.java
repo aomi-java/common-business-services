@@ -1,12 +1,13 @@
-package tech.aomi.common.web.security.oauth2;
+package tech.aomi.common.web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
@@ -25,16 +26,17 @@ public class AccessDeniedHandlerConfiguration {
         return new AccessDeniedHandlerImpl();
     }
 
+    @Order(99999)
     @Configuration
-    public static class AccessDeniedHandlerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+    public static class AccessDeniedHandlerConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Autowired(required = false)
         private AccessDeniedHandler accessDeniedHandler;
 
         @Override
-        public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        public void configure(HttpSecurity http) throws Exception {
             if (null != accessDeniedHandler) {
-                resources.accessDeniedHandler(accessDeniedHandler);
+                http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
             }
         }
 
