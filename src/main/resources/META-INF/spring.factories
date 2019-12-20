@@ -4,6 +4,5 @@ tech.aomi.common.web.WebErrorConfiguration,\
 tech.aomi.common.web.controller.RestControllerExceptionHandlerController,\
 tech.aomi.common.web.controller.SecurityRestControllerExceptionHandlerController,\
 tech.aomi.common.web.security.AccessDecisionVoterConfiguration,\
-tech.aomi.common.web.security.oauth2.AccessDeniedHandlerConfiguration,\
-tech.aomi.common.web.security.oauth2.OAuth2ExceptionRendererConfiguration,\
-tech.aomi.common.web.security.oauth2.TokenStoreConfiguration
+tech.aomi.common.web.security.DefaultWebSecurityConfiguration,\
+tech.aomi.common.web.security.oauth2.DefaultResourceServerConfiguration

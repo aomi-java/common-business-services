@@ -4,25 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * Oauth TokenStore 配置
- *
- * @author Sean Create At 2019/12/19
+ * @author Sean Create At 2019/12/20
  */
 @Configuration
-@ConditionalOnClass({ResourceServerConfigurerAdapter.class})
-public class TokenStoreConfiguration {
+@ConditionalOnClass(ResourceServerConfigurerAdapter.class)
+public class DefaultResourceServerConfiguration {
+
+    /**
+     * OAuth2Exception异常处理服务
+     */
+    @Bean
+    @ConditionalOnProperty(name = "bs.oauth2.jsonExceptionRenderer", matchIfMissing = true)
+    public OAuth2ExceptionRendererImpl oAuth2ExceptionRendererImpl() {
+        return new OAuth2ExceptionRendererImpl();
+    }
 
     @Configuration
     @ConditionalOnClass(RedisConnectionFactory.class)
+    @ConditionalOnProperty(name = "bs.oauth2.redisTokenStore", matchIfMissing = true)
     public static class RedisTokenStoreConfiguration {
 
         /**
@@ -37,18 +45,4 @@ public class TokenStoreConfiguration {
         }
 
     }
-
-    @Configuration
-    public static class TokenStoreConfigurerAdapter extends ResourceServerConfigurerAdapter {
-
-        @Autowired(required = false)
-        private TokenStore tokenStore;
-
-        @Override
-        public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-            if (null != tokenStore)
-                resources.tokenStore(tokenStore);
-        }
-    }
-
 }
