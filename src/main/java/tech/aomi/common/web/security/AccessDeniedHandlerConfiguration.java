@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
- * 访问被拒绝响应结果处理
+ * 访问被拒绝响应结果处理,仅适用于经过身份验证的用户
  * 403 无权限访问结果处理
  *
  * @author Sean Create At 2019/12/19
@@ -36,7 +36,8 @@ public class AccessDeniedHandlerConfiguration {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             if (null != accessDeniedHandler) {
-                http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                http.exceptionHandling()
+                        .accessDeniedHandler(accessDeniedHandler);
             }
         }
 
