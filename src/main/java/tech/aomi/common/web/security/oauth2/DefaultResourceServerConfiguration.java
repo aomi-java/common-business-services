@@ -38,7 +38,6 @@ public class DefaultResourceServerConfiguration {
         private String privateKey;
 
         @Bean
-        @ConditionalOnProperty(name = {"bs.oauth2.jwt.filepath", "bs.oauth2.jwt.password", "bs.oauth2.jwt.alias"})
         public TokenStore jwtTokenStore() {
             return new JwtTokenStore(jwtAccessTokenConverter());
         }
