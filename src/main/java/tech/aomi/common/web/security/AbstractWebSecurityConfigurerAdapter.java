@@ -1,6 +1,7 @@
 package tech.aomi.common.web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  *
  * @author Sean Create At 2019/12/20
  */
+@Import(DefaultWebSecurityConfiguration.class)
 public abstract class AbstractWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
     @Autowired(required = false)
