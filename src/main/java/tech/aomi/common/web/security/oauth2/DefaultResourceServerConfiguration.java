@@ -1,16 +1,15 @@
 package tech.aomi.common.web.security.oauth2;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * @author Sean Create At 2019/12/20
@@ -29,19 +28,31 @@ public class DefaultResourceServerConfiguration {
     }
 
     @Configuration
-    @ConditionalOnClass(RedisConnectionFactory.class)
-    @ConditionalOnProperty(name = "bs.oauth2.redisTokenStore", matchIfMissing = true)
-    public static class RedisTokenStoreConfiguration {
+    @ConditionalOnProperty(name = "bs.oauth2.tokenStoreType", havingValue = "jwt", matchIfMissing = true)
+    public static class JwtTokenStoreConfiguration {
 
-        /**
-         * 声明TokenStore实现
-         */
+        @Value("bs.oauth2.jwt.publicKey")
+        private String publicKey;
+
+        @Value("bs.oauth2.jwt.privateKey")
+        private String privateKey;
+
         @Bean
-        @Autowired
-        @ConditionalOnMissingBean(TokenStore.class)
-        @ConditionalOnBean(RedisConnectionFactory.class)
-        public TokenStore redisTokenStore(RedisConnectionFactory redisConnectionFactory) {
-            return new RedisTokenStore(redisConnectionFactory);
+        @ConditionalOnProperty(name = {"bs.oauth2.jwt.filepath", "bs.oauth2.jwt.password", "bs.oauth2.jwt.alias"})
+        public TokenStore jwtTokenStore() {
+            return new JwtTokenStore(jwtAccessTokenConverter());
+        }
+
+        @Bean
+        protected JwtAccessTokenConverter jwtAccessTokenConverter() {
+            JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+            if (StringUtils.isNotEmpty(publicKey)) {
+                converter.setVerifierKey(publicKey);
+            }
+            if (StringUtils.isNotEmpty(privateKey)) {
+                converter.setSigningKey(privateKey);
+            }
+            return converter;
         }
 
     }
