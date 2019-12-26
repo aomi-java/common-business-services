@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 自定义访问策略处理
  * 安全服务接口
  *
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/7/16
