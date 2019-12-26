@@ -1,7 +1,6 @@
 package tech.aomi.common.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,13 +14,12 @@ import tech.aomi.common.exception.ErrorCode;
  */
 @Slf4j
 @Configuration
-@ConditionalOnClass(BadCredentialsException.class)
 @RestControllerAdvice
 public class SecurityRestControllerExceptionHandlerController {
 
     @ExceptionHandler({BadCredentialsException.class})
     public Result badCredentialsException(BadCredentialsException e) {
-        LOGGER.error("无效的授权信息");
+        LOGGER.error("无效的授权信息: {}", e.getMessage(), e);
         return new Result(ErrorCode.UNAUTHORIZED.getCode(), e.getMessage(), null);
     }
 
