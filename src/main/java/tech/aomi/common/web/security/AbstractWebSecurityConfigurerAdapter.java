@@ -2,6 +2,8 @@ package tech.aomi.common.web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -21,6 +23,9 @@ public abstract class AbstractWebSecurityConfigurerAdapter extends WebSecurityCo
     @Autowired(required = false)
     private Http403ForbiddenImpl http403ForbiddenImpl;
 
+    @Autowired(required = false)
+    private SecurityServices securityServices;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (null != accessDeniedHandlerImpl) {
@@ -28,6 +33,17 @@ public abstract class AbstractWebSecurityConfigurerAdapter extends WebSecurityCo
         }
         if (null != http403ForbiddenImpl) {
             http.exceptionHandling().authenticationEntryPoint(http403ForbiddenImpl);
+        }
+        if (null != securityServices) {
+            http.securityContext().withObjectPostProcessor(new ObjectPostProcessor<AffirmativeBased>() {
+
+                @Override
+                public <O extends AffirmativeBased> O postProcess(O object) {
+                    object.getDecisionVoters().add(new AccessDecisionVoterImpl(securityServices));
+                    return object;
+                }
+
+            });
         }
     }
 }
