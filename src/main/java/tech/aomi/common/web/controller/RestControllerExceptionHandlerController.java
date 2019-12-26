@@ -72,7 +72,7 @@ public class RestControllerExceptionHandlerController {
         return Result.create(ErrorCode.PARAMS_ERROR, e.getMessage(), args);
     }
 
-    @ExceptionHandler({ServiceException.class})
+    @ExceptionHandler(ServiceException.class)
     public Result servicesException(ServiceException ex) {
         LOGGER.error("控制器发生异常: [{}]", ex.getMessage(), ex);
         return Result.create(ex.getErrorCode(), ex.getMessage(), ex.getPayload());
