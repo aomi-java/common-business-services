@@ -1,4 +1,4 @@
-package tech.aomi.common.web.client.retrofit;
+package tech.aomi.common.web.client.retrofit2;
 
 import lombok.extern.slf4j.Slf4j;
 import retrofit2.Call;

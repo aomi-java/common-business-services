@@ -1,11 +1,11 @@
-package tech.aomi.common.web.client.retrofit;
+package tech.aomi.common.web.client.retrofit2;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import tech.aomi.common.web.client.retrofit.converter.ArgsConverterFactory;
+import tech.aomi.common.web.client.retrofit2.converter.ArgsConverterFactory;
 
 import java.util.concurrent.TimeUnit;
 

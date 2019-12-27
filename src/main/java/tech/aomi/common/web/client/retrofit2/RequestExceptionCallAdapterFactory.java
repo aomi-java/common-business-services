@@ -1,4 +1,4 @@
-package tech.aomi.common.web.client.retrofit;
+package tech.aomi.common.web.client.retrofit2;
 
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;

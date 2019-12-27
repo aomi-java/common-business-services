@@ -1,4 +1,4 @@
-package tech.aomi.common.web.client.retrofit.converter;
+package tech.aomi.common.web.client.retrofit2.converter;
 
 import com.fasterxml.jackson.databind.ObjectWriter;
 import okhttp3.MediaType;
