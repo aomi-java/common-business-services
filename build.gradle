@@ -3,8 +3,9 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '1.0.0.Alpha.18'
+version '1.0.0.Alpha.19'
 
+apply from: 'https://onegit.app/oneuser/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/java.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/idea.gradle'
@@ -13,10 +14,12 @@ apply from: 'https://onegit.app/enterprise/public/raw/master/publishing-with-sou
 
 repositories {
     maven { url "${project.'repo'}" }
+    maven { url "https://repo.aomi.cloud/repository/oneuser-maven/" }
     jcenter()
 }
 
 dependencies {
+    compile oneuser.userdetails
 
     compileOnly lib.spring_data_commons
     compileOnly lib.spring_data_mongodb
