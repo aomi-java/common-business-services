@@ -31,6 +31,7 @@ public class Retrofit2ClientServices implements ClientServices {
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
         String baseUrl = instance.getScheme() + instance.getHost() + "/";
+        LOGGER.debug("baseUrl: {}", baseUrl);
         Retrofit retrofit = getRetrofit(baseUrl);
         return retrofit.create(clazz);
     }
@@ -81,7 +82,9 @@ public class Retrofit2ClientServices implements ClientServices {
         Retrofit retrofit = cache.get(baseUrl);
         if (null != retrofit)
             return retrofit;
-        retrofit = ClientFactory.builder().build();
+        retrofit = ClientFactory.builder()
+                .baseUrl(baseUrl)
+                .build();
         cache.put(baseUrl, retrofit);
         return retrofit;
     }
