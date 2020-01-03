@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,9 @@ public class JwtTokenConfiguration {
 
     @Autowired(required = false)
     private AuthorizationServerProperties authorizationServerProperties;
+
+    @Autowired(required = false)
+    private UserAuthenticationConverter userAuthenticationConverter;
 
     @Bean
     public TokenStore jwtTokenStore() {
@@ -46,6 +51,12 @@ public class JwtTokenConfiguration {
         if (!StringUtils.isEmpty(privateKey)) {
             converter.setSigningKey(privateKey);
         }
+        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+        if (null != userAuthenticationConverter) {
+            defaultAccessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
+        }
+
+        converter.setAccessTokenConverter(defaultAccessTokenConverter);
         return converter;
     }
 
