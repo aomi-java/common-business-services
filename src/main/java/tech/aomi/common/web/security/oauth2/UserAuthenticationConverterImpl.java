@@ -1,18 +1,18 @@
 package tech.aomi.common.web.security.oauth2;
 
+import cn.oneuser.DefaultUserDetails;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import tech.aomi.common.web.security.UserDetailsService;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -20,6 +20,7 @@ import java.util.Map;
 /**
  * @author Sean Create At 2020/1/3
  */
+@Slf4j
 @Setter
 public class UserAuthenticationConverterImpl extends DefaultUserAuthenticationConverter {
 
@@ -34,13 +35,10 @@ public class UserAuthenticationConverterImpl extends DefaultUserAuthenticationCo
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> result = (Map<String, Object>) super.convertUserAuthentication(authentication);
 
-        if (authentication instanceof OAuth2Authentication) {
-            OAuth2Authentication auth = (OAuth2Authentication) authentication;
-            if ("client_credentials".equals(auth.getOAuth2Request().getGrantType())) {
-                return result;
-            }
-            Object user = auth.getUserAuthentication().getPrincipal();
-            setValue(result, user, "id");
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof DefaultUserDetails) {
+            DefaultUserDetails userDetails = (DefaultUserDetails) principal;
+            result.put(ID, userDetails.getId());
         }
 
         return result;
@@ -54,7 +52,7 @@ public class UserAuthenticationConverterImpl extends DefaultUserAuthenticationCo
         if (map.containsKey(ID)) {
             String id = (String) map.get(ID);
             if (null != userDetailsService) {
-                UserDetails user = userDetailsService.loadUserById(id);
+                UserDetails user = userDetailsService.loadUserById(id, map);
                 authorities = user.getAuthorities();
                 principal = user;
             }
@@ -88,22 +86,4 @@ public class UserAuthenticationConverterImpl extends DefaultUserAuthenticationCo
         throw new IllegalArgumentException("Authorities must be either a String or a Collection");
     }
 
-
-    private void setValue(Map<String, Object> result, Object user, String fieldName) {
-        if (null == user || null == fieldName)
-            return;
-
-        Class<?> cls = user.getClass();
-        try {
-            Field field = cls.getDeclaredField("id");
-            if (null == field)
-                return;
-            field.setAccessible(true);
-            Object val = new Object();
-            val = field.get(val);
-            result.put(fieldName, val);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 }
