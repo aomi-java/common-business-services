@@ -30,7 +30,7 @@ public class Retrofit2ClientServices implements ClientServices {
 
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
-        String baseUrl = instance.getScheme() + instance.getHost();
+        String baseUrl = instance.getScheme() + instance.getHost() + "/";
         Retrofit retrofit = getRetrofit(baseUrl);
         return retrofit.create(clazz);
     }
