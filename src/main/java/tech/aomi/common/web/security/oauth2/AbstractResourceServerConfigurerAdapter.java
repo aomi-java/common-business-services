@@ -1,7 +1,6 @@
 package tech.aomi.common.web.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
@@ -11,7 +10,6 @@ import tech.aomi.common.web.security.AccessDeniedHandlerImpl;
 /**
  * @author Sean Create At 2019/12/20
  */
-@Import(DefaultResourceServerConfiguration.class)
 public class AbstractResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
     @Autowired(required = false)
