@@ -1,4 +1,4 @@
-package tech.aomi.common.web.security.oauth2;
+package tech.aomi.common.web.security.oauth2.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -48,13 +47,6 @@ public class JwtTokenConfiguration {
             converter.setSigningKey(privateKey);
         }
         return converter;
-    }
-
-    @Bean
-    public DefaultTokenServices jwtTokenServices() {
-        DefaultTokenServices services = new DefaultTokenServices();
-        services.setTokenStore(jwtTokenStore());
-        return services;
     }
 
 }
