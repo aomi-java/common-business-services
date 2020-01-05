@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '1.0.0.Alpha.22'
+version '1.0.0.Alpha.23'
 
 apply from: 'https://onegit.app/oneuser/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/libraries.gradle'
