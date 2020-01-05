@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '1.0.0.Alpha.21'
+version '1.0.0.Alpha.22'
 
 apply from: 'https://onegit.app/oneuser/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.app/enterprise/public/raw/master/libraries.gradle'
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile oneuser.userdetails
+    compileOnly oneuser.userdetails
 
     compileOnly lib.spring_data_commons
     compileOnly lib.spring_data_mongodb
