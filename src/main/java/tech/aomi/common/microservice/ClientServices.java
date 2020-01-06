@@ -2,10 +2,14 @@ package tech.aomi.common.microservice;
 
 import org.springframework.cloud.client.ServiceInstance;
 
+import java.util.List;
+
 /**
  * @author Sean Create At 2019-12-13
  */
 public interface ClientServices {
+
+    List<String> getServices();
 
     <T> T newInstance(ServiceInstance instance, Class<T> clazz);
 

@@ -29,6 +29,11 @@ public class Retrofit2ClientServices implements ClientServices {
     private long lastUpdateAt = System.currentTimeMillis();
 
     @Override
+    public List<String> getServices() {
+        return discoveryClient.getServices();
+    }
+
+    @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
         String baseUrl = instance.getScheme() + instance.getHost() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
