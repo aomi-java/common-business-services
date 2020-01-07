@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sean Create At 2019/12/25
@@ -20,9 +21,23 @@ public class Retrofit2ClientServices implements ClientServices {
 
     private final DiscoveryClient discoveryClient;
 
+    /**
+     * 单位秒
+     */
+    private long readTimeout;
+
+    private long writeTimeout;
+
     public Retrofit2ClientServices(DiscoveryClient discoveryClient) {
-        this.discoveryClient = discoveryClient;
+        this(discoveryClient, 60, 60);
     }
+
+    public Retrofit2ClientServices(DiscoveryClient discoveryClient, long readTimeout, long writeTimeout) {
+        this.discoveryClient = discoveryClient;
+        this.readTimeout = readTimeout;
+        this.writeTimeout = writeTimeout;
+    }
+
 
     private Map<String, Retrofit> cache = new HashMap<>();
 
@@ -89,6 +104,8 @@ public class Retrofit2ClientServices implements ClientServices {
             return retrofit;
         retrofit = ClientFactory.builder()
                 .baseUrl(baseUrl)
+                .readTimeout(this.readTimeout, TimeUnit.SECONDS)
+                .writeTimeout(this.writeTimeout, TimeUnit.SECONDS)
                 .build();
         cache.put(baseUrl, retrofit);
         return retrofit;
