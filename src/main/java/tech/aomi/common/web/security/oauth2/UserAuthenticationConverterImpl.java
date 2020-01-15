@@ -53,16 +53,20 @@ public class UserAuthenticationConverterImpl extends DefaultUserAuthenticationCo
             String id = (String) map.get(ID);
             if (null != userDetailsService) {
                 UserDetails user = userDetailsService.loadUserById(id, map);
-                authorities = user.getAuthorities();
-                principal = user;
+                if (null != user) {
+                    authorities = user.getAuthorities();
+                    principal = user;
+                }
             }
         }
         if (null == principal && map.containsKey(USERNAME)) {
             principal = map.get(USERNAME);
             if (userDetailsService != null) {
                 UserDetails user = userDetailsService.loadUserByUsername((String) map.get(USERNAME));
-                authorities = user.getAuthorities();
-                principal = user;
+                if (null != user) {
+                    authorities = user.getAuthorities();
+                    principal = user;
+                }
             }
         }
         if (CollectionUtils.isEmpty(authorities))
