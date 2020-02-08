@@ -13,7 +13,7 @@ import tech.aomi.common.constant.HttpHeader;
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/6/11
  */
 @Slf4j
-public abstract class ResponseSignHandler implements ResponseBodyAdvice<Result.Entity> {
+public abstract class AbstractResponseSignHandler implements ResponseBodyAdvice<Result.Entity> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {

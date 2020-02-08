@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/6/12
  */
 @Slf4j
-public abstract class RequestSignVerifyHandler extends RequestBodyAdviceAdapter {
+public abstract class AbstractRequestSignVerifyHandler extends RequestBodyAdviceAdapter {
 
     public static final int EOF = -1;
 
