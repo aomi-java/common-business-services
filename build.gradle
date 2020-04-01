@@ -3,13 +3,13 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '1.0.0.Alpha.29'
+version '1.0.0.Alpha.30'
 
-apply from: 'https://onegit.app/oneuser/public/raw/master/libraries.gradle'
-apply from: 'https://onegit.app/enterprise/public/raw/master/libraries.gradle'
-apply from: 'https://onegit.app/enterprise/public/raw/master/java.gradle'
-apply from: 'https://onegit.app/enterprise/public/raw/master/idea.gradle'
-apply from: 'https://onegit.app/enterprise/public/raw/master/publishing-with-source.gradle'
+apply from: 'https://onegit.com/oneuser/public/raw/master/libraries.gradle'
+apply from: 'https://onegit.com/enterprise/public/raw/master/libraries.gradle'
+apply from: 'https://onegit.com/enterprise/public/raw/master/java.gradle'
+apply from: 'https://onegit.com/enterprise/public/raw/master/idea.gradle'
+apply from: 'https://onegit.com/enterprise/public/raw/master/publishing-with-source.gradle'
 
 
 repositories {
@@ -26,13 +26,21 @@ dependencies {
 
     compileOnly lib.spring_boot_web
 
+    compileOnly lib.spring_boot_batch
+
     compileOnly lib.spring_cloud_oauth
 
     compileOnly lib.retrofit
 
+    compileOnly lib.netty_all
+
+    compileOnly lib.poi
+    compileOnly lib.poi_ooxml
+
     compileOnly lib.commons_lang3
 
     compileOnly lib.sitb_common_entity
+    compileOnly lib.sitb_spring_data_mongo
 
 
     testCompile lib._test
