@@ -1,6 +1,7 @@
 package tech.aomi.common.web.security.oauth2.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
  * @author Sean Create At 2020/1/2
  */
 @Configuration
+@ConditionalOnClass(name = "org.springframework.security.oauth2.provider.token.TokenStore")
 public class JwtTokenConfiguration {
 
     @Autowired(required = false)
