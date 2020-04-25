@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author 田尘殇Sean(sean.snow @ live.com) createAt 2018/9/5
  */
 @Slf4j
-@Controller
-@RequestMapping("${server.error.path:${error.path:/error}}")
 public class ErrorControllerImpl extends BasicErrorController {
 
     private final ErrorAttributes errorAttributes;
@@ -29,7 +26,7 @@ public class ErrorControllerImpl extends BasicErrorController {
         this.errorAttributes = errorAttributes;
     }
 
-    @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_HTML_VALUE})
+    @RequestMapping(value = "${server.error.path:${error.path:/error}}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_HTML_VALUE})
     public ModelAndView errorException(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         WebRequest webRequest = new ServletWebRequest(request);
         Throwable t = errorAttributes.getError(webRequest);

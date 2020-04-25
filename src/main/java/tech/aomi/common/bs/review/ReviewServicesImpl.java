@@ -3,6 +3,7 @@ package tech.aomi.common.bs.review;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -28,6 +29,7 @@ import static software.sitb.common.entity.review.ReviewStatus.FINISH;
  */
 @Slf4j
 @Service
+@ConditionalOnClass(name = "software.sitb.common.entity.review.Review")
 public class ReviewServicesImpl implements ReviewServices {
 
     @Autowired
