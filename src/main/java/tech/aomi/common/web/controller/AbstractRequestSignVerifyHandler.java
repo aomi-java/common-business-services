@@ -28,7 +28,7 @@ public abstract class AbstractRequestSignVerifyHandler extends RequestBodyAdvice
     protected HttpServletRequest request;
 
     @Autowired
-    private HttpProperties properties;
+    protected HttpProperties properties;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
