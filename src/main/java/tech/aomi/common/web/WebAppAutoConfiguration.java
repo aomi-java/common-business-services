@@ -33,6 +33,7 @@ public class WebAppAutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LogInterceptor());
         registry.addInterceptor(new ApplicationInterceptor(applicationContext));
     }
 
