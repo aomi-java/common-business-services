@@ -10,6 +10,11 @@ public class HttpHeader {
      */
     public static final String SIGNATURE = "X-Signature";
 
+    /**
+     * 请求ID
+     */
+    public static final String REQUEST_ID = "X-Request-Id";
+
 }
 
 
