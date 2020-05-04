@@ -221,6 +221,10 @@ public class Result extends ResponseEntity<Result.Entity> {
             return status != null && status.equals(ErrorCode.SUCCESS.getCode());
         }
 
+        @Override
+        public String toString() {
+            return "[" + getStatus() + "] " + getDescribe();
+        }
     }
 
 }
