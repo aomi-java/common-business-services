@@ -25,7 +25,7 @@ public enum ErrorCode {
     CUSTOM_ERROR_MESSAGE("3200", "CUSTOM_ERROR_MESSAGE"),
     REQUEST_CONTENT_TYPE_NOT_SUPPORTED("3201", "request content type not supported"),
     REQUEST_METHOD_NOT_SUPPORTED("3202", "request method not supported"),
-
+    SERVICE_NOT_IMPL("3203", "服务未实现"),
 
     UNAUTHORIZED("3210", "unauthorized"),
     INVALID_CREDENTIAL("3211", "invalid credential"),
