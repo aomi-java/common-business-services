@@ -1,7 +1,7 @@
 package tech.aomi.common.web.security;
 
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import tech.aomi.common.exception.AccessDeniedException;
 
 import javax.servlet.http.HttpServletRequest;
 
