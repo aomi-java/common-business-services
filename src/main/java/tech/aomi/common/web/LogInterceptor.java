@@ -1,5 +1,6 @@
 package tech.aomi.common.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
@@ -13,9 +14,10 @@ import java.util.UUID;
 
 /**
  * 每次请求生成一个唯一的请求ID。用于日志追踪
- *
+ * 请求开始和结束时的时间
  * @author Sean Create At 2020/4/15
  */
+@Slf4j
 @Component
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
@@ -32,11 +34,13 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(MDC.get(ID))) {
             MDC.put(ID, reqId);
         }
+        LOGGER.debug("请求处理开始: {}", System.currentTimeMillis());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+        LOGGER.debug("请求处理结束: {}", System.currentTimeMillis());
         MDC.remove(ID);
     }
 
