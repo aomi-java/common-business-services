@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import retrofit2.Retrofit;
 import tech.aomi.common.web.client.retrofit2.ClientFactory;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,8 @@ public class Retrofit2ClientServices implements ClientServices {
 
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
-        String baseUrl = instance.getScheme() + instance.getHost() + "/";
+        URI uri = instance.getUri();
+        String baseUrl = uri.getScheme() + uri.getHost() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
         Retrofit retrofit = getRetrofit(baseUrl);
         return retrofit.create(clazz);
