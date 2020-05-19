@@ -50,7 +50,22 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
     @Override
-    public <T> T newInstance(String name, Class<T> clazz) {
+    public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
+        URI uri = instance.getUri();
+        String baseUrl = uri.getScheme() + "://" + uri.getHost() + "/";
+        LOGGER.debug("baseUrl: {}", baseUrl);
+        Retrofit retrofit = getRetrofit(baseUrl);
+        return retrofit.create(clazz);
+    }
+
+    /**
+     * 模糊匹配服务名字，找到对应的服务
+     *
+     * @param name 服务名称
+     * @return 服务实例
+     */
+    @Override
+    public ServiceInstance getRandomInstance(String name) {
         List<String> services = discoveryClient.getServices();
         LOGGER.debug("all services: {}", services);
         if (CollectionUtils.isEmpty(services))
@@ -60,13 +75,22 @@ public class Retrofit2ClientServices implements ClientServices {
             if (serviceId.toLowerCase().contains(name.toLowerCase())) {
                 List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
                 if (CollectionUtils.isEmpty(instances)) {
-                    LOGGER.warn("服务{}没有运行任何实例", serviceId);
+                    LOGGER.error("服务{}没有运行任何实例", serviceId);
                     return null;
                 }
-                String baseUrl = "http://" + serviceId + "/";
-                LOGGER.debug("baseUrl: {}", baseUrl);
-                Retrofit retrofit = getRetrofit(baseUrl);
-                return retrofit.create(clazz);
+                LOGGER.debug("随机获取一个服务实例");
+                Random random = new Random();
+                int index = random.nextInt(instances.size());
+                ServiceInstance instance = instances.get(index);
+                LOGGER.debug("instanceId: {}, serviceId: {}, host: {}, port: {}, uri: {}, metadata: {}",
+                        instance.getInstanceId(),
+                        instance.getServiceId(),
+                        instance.getHost(),
+                        instance.getPort(),
+                        instance.getUri(),
+                        instance.getMetadata()
+                );
+                return instance;
             }
         }
         return null;
