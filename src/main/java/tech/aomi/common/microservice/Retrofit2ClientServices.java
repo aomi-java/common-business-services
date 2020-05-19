@@ -52,7 +52,7 @@ public class Retrofit2ClientServices implements ClientServices {
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
         URI uri = instance.getUri();
-        String baseUrl = uri.getScheme() + uri.getHost() + "/";
+        String baseUrl = uri.getScheme() + "://" + uri.getHost() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
         Retrofit retrofit = getRetrofit(baseUrl);
         return retrofit.create(clazz);
