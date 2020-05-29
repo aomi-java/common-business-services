@@ -40,8 +40,6 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
 
-    private Map<String, Retrofit> cache = new HashMap<>();
-
     private long lastUpdateAt = System.currentTimeMillis();
 
     @Override
@@ -97,19 +95,11 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
     private Retrofit getRetrofit(String baseUrl) {
-        if ((System.currentTimeMillis() - lastUpdateAt) > (10 * 60 * 1000)) {
-            cache.clear();
-        }
-
-        Retrofit retrofit = cache.get(baseUrl);
-        if (null != retrofit)
-            return retrofit;
-        retrofit = ClientFactory.builder()
+        Retrofit retrofit = ClientFactory.builder()
                 .baseUrl(baseUrl)
                 .readTimeout(this.readTimeout, TimeUnit.SECONDS)
                 .writeTimeout(this.writeTimeout, TimeUnit.SECONDS)
                 .build();
-        cache.put(baseUrl, retrofit);
         return retrofit;
     }
 
