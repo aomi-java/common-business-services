@@ -1,17 +1,15 @@
-package tech.aomi.common.microservice;
+package tech.aomi.common.microservice.retrofit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 import retrofit2.Retrofit;
+import tech.aomi.common.microservice.ClientServices;
 import tech.aomi.common.web.client.retrofit2.ClientFactory;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,9 +23,9 @@ public class Retrofit2ClientServices implements ClientServices {
     /**
      * 单位秒
      */
-    private long readTimeout;
+    private final long readTimeout;
 
-    private long writeTimeout;
+    private final long writeTimeout;
 
     public Retrofit2ClientServices(DiscoveryClient discoveryClient) {
         this(discoveryClient, 60, 60);
@@ -40,8 +38,6 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
 
-    private long lastUpdateAt = System.currentTimeMillis();
-
     @Override
     public List<String> getServices() {
         return discoveryClient.getServices();
@@ -49,10 +45,15 @@ public class Retrofit2ClientServices implements ClientServices {
 
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
+        return newInstance(instance, clazz, Collections.emptyMap());
+    }
+
+    @Override
+    public <T> T newInstance(ServiceInstance instance, Class<T> clazz, Map<String, String> headers) {
         URI uri = instance.getUri();
         String baseUrl = uri.getScheme() + "://" + uri.getHost() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
-        Retrofit retrofit = getRetrofit(baseUrl);
+        Retrofit retrofit = getRetrofit(headers, baseUrl);
         return retrofit.create(clazz);
     }
 
@@ -94,16 +95,17 @@ public class Retrofit2ClientServices implements ClientServices {
         return null;
     }
 
-    private Retrofit getRetrofit(String baseUrl) {
-        Retrofit retrofit = ClientFactory.builder()
+    private Retrofit getRetrofit(Map<String, String> headers, String baseUrl) {
+        return ClientFactory.builder()
                 .baseUrl(baseUrl)
+                .addInterceptor(new HttpHeaderInterceptor(headers))
                 .readTimeout(this.readTimeout, TimeUnit.SECONDS)
                 .writeTimeout(this.writeTimeout, TimeUnit.SECONDS)
                 .build();
-        return retrofit;
     }
 
 
 }
+
 
 
