@@ -6,6 +6,7 @@ package tech.aomi.common.exception;
 public enum ErrorCode {
 
     SUCCESS("0000", "request handle success."),
+    DEFECT_SUCCESS("0001", "有缺陷的成功"),
     EXCEPTION("3000", "an unknown error occurred"),
 
     // 从 3001 - 3199 开始为参数错误类代码 开始
