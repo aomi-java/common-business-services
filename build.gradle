@@ -19,29 +19,28 @@ repositories {
 }
 
 dependencies {
-    compileOnly oneuser.userdetails
+    implementation oneuser.userdetails
 
-    compileOnly lib.spring_data_commons
-    compileOnly lib.spring_data_mongodb
+    implementation lib.spring_data_commons
+    implementation lib.spring_data_mongodb
 
-    compileOnly lib.spring_boot_web
+    implementation lib.spring_boot_web
 
-    compileOnly lib.spring_boot_batch
+    implementation lib.spring_boot_batch
 
-    compileOnly lib.spring_cloud_oauth
+    implementation lib.spring_cloud_oauth
 
-    compileOnly lib.retrofit
+    implementation lib.retrofit
 
-    compileOnly lib.netty_all
+    implementation lib.netty_all
 
-    compileOnly lib.poi
-    compileOnly lib.poi_ooxml
+    implementation lib.poi
+    implementation lib.poi_ooxml
 
-    compileOnly lib.commons_lang3
+    implementation lib.commons_lang3
 
-    compileOnly lib.sitb_common_entity
-    compileOnly lib.sitb_spring_data_mongo
+    implementation lib.sitb_common_entity
+    implementation lib.sitb_spring_data_mongo
 
-
-    testCompile lib._test
+    testImplementation lib._test
 }
