@@ -3,7 +3,7 @@ package tech.aomi.common.web.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.http.HttpProperties;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
@@ -28,7 +28,7 @@ public abstract class AbstractRequestSignVerifyHandler extends RequestBodyAdvice
     protected HttpServletRequest request;
 
     @Autowired
-    protected HttpProperties properties;
+    protected ServerProperties properties;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
