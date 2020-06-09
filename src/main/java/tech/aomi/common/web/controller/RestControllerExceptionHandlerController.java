@@ -81,8 +81,7 @@ public class RestControllerExceptionHandlerController {
 
     @ExceptionHandler
     public Result exception(Exception ex, HttpServletRequest request) {
-        LOGGER.error("发生无法预料的错误: {}", ex.getMessage(), ex);
-        LOGGER.error("request url: {}", request.getRequestURL());
+        LOGGER.error("发生无法预料的错误:{}, {}", request.getRequestURL(), ex.getMessage(), ex);
         return Result.create(ErrorCode.EXCEPTION, ex.getMessage(), null);
     }
 
