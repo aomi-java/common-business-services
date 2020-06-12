@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'tech.aomi.common'
-version '2.0.0.Alpha'
+version '2.0.2'
 
 apply from: 'https://onegit.com/oneuser/public/raw/master/libraries.gradle'
 apply from: 'https://onegit.com/enterprise/public/raw/master/libraries.gradle'
@@ -19,28 +19,28 @@ repositories {
 }
 
 dependencies {
-    implementation oneuser.userdetails
+    compileOnly oneuser.userdetails
 
-    implementation lib.spring_data_commons
-    implementation lib.spring_data_mongodb
+    compileOnly lib.spring_data_commons
+    compileOnly lib.spring_data_mongodb
 
-    implementation lib.spring_boot_web
+    compileOnly lib.spring_boot_web
 
-    implementation lib.spring_boot_batch
+    compileOnly lib.spring_boot_batch
 
-    implementation lib.spring_cloud_oauth
+    compileOnly lib.spring_cloud_oauth
 
-    implementation lib.retrofit
+    compileOnly lib.retrofit
 
-    implementation lib.netty_all
+    compileOnly lib.netty_all
 
-    implementation lib.poi
-    implementation lib.poi_ooxml
+    compileOnly lib.poi
+    compileOnly lib.poi_ooxml
 
-    implementation lib.commons_lang3
+    compileOnly lib.commons_lang3
 
-    implementation lib.sitb_common_entity
-    implementation lib.sitb_spring_data_mongo
+    compileOnly lib.sitb_common_entity
+    compileOnly lib.sitb_spring_data_mongo
 
     testImplementation lib._test
 }
