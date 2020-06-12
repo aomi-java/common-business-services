@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+tech.aomi.common.web.MDCAutoConfiguration, \
 tech.aomi.common.web.WebAppAutoConfiguration, \
 tech.aomi.common.web.WebErrorConfiguration,\
 tech.aomi.common.web.controller.SecurityRestControllerExceptionHandlerController,\

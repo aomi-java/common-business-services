@@ -15,6 +15,7 @@ import java.util.UUID;
 /**
  * 每次请求生成一个唯一的请求ID。用于日志追踪
  * 请求开始和结束时的时间
+ *
  * @author Sean Create At 2020/4/15
  */
 @Slf4j
@@ -29,6 +30,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String reqId = request.getHeader(HttpHeader.REQUEST_ID);
+        response.setHeader(HttpHeader.REQUEST_ID, reqId);
         if (StringUtils.isEmpty(reqId))
             reqId = UUID.randomUUID().toString().replaceAll("-", "");
         if (StringUtils.isEmpty(MDC.get(ID))) {
