@@ -1,6 +1,7 @@
 package tech.aomi.common.microservice.retrofit;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Interceptor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
@@ -20,6 +21,8 @@ public class Retrofit2ClientServices implements ClientServices {
 
     private final DiscoveryClient discoveryClient;
 
+    private List<Interceptor> interceptors;
+
     /**
      * 单位秒
      */
@@ -32,9 +35,14 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
     public Retrofit2ClientServices(DiscoveryClient discoveryClient, long readTimeout, long writeTimeout) {
+        this(discoveryClient, readTimeout, writeTimeout, new ArrayList<>());
+    }
+
+    public Retrofit2ClientServices(DiscoveryClient discoveryClient, long readTimeout, long writeTimeout, List<Interceptor> interceptors) {
         this.discoveryClient = discoveryClient;
         this.readTimeout = readTimeout;
         this.writeTimeout = writeTimeout;
+        this.interceptors = interceptors;
     }
 
 
@@ -96,12 +104,16 @@ public class Retrofit2ClientServices implements ClientServices {
     }
 
     private Retrofit getRetrofit(Map<String, String> headers, String baseUrl) {
-        return ClientFactory.builder()
+        ClientFactory factory = ClientFactory.builder()
                 .baseUrl(baseUrl)
                 .addInterceptor(new HttpHeaderInterceptor(headers))
                 .readTimeout(this.readTimeout, TimeUnit.SECONDS)
-                .writeTimeout(this.writeTimeout, TimeUnit.SECONDS)
-                .build();
+                .writeTimeout(this.writeTimeout, TimeUnit.SECONDS);
+
+        if (!CollectionUtils.isEmpty(interceptors)) {
+            interceptors.forEach(factory::addInterceptor);
+        }
+        return factory.build();
     }
 
 
