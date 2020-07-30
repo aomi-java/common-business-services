@@ -30,12 +30,11 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String reqId = request.getHeader(HttpHeader.REQUEST_ID);
-        response.setHeader(HttpHeader.REQUEST_ID, reqId);
         if (StringUtils.isEmpty(reqId))
             reqId = UUID.randomUUID().toString().replaceAll("-", "");
-        if (StringUtils.isEmpty(MDC.get(ID))) {
-            MDC.put(ID, reqId);
-        }
+
+        response.setHeader(HttpHeader.REQUEST_ID, reqId);
+        MDC.put(ID, reqId);
         LOGGER.debug("请求处理开始: {}", System.currentTimeMillis());
         return true;
     }
