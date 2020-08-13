@@ -40,9 +40,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         LOGGER.debug("请求处理结束: {}", System.currentTimeMillis());
         MDC.remove(ID);
     }
-
 }
