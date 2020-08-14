@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class ClientFactory {
 
-    private OkHttpClient.Builder clientBuilder;
+    private final OkHttpClient.Builder clientBuilder;
 
-    private Retrofit.Builder retrofitBuilder;
+    private final Retrofit.Builder retrofitBuilder;
 
     private Retrofit retrofit;
 
