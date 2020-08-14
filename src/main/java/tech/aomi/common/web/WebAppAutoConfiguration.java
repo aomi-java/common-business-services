@@ -9,6 +9,7 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import tech.aomi.common.web.interceptor.ApplicationInterceptor;
+import tech.aomi.common.web.log.LogInterceptor;
 
 /**
  * @author Sean sean.snow@live.com

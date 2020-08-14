@@ -1,12 +1,14 @@
-package tech.aomi.common.web;
+package tech.aomi.common.web.log;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import tech.aomi.common.constant.HttpHeader;
+import tech.aomi.common.web.interceptor.AbstractHandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +22,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Component
-public class LogInterceptor extends HandlerInterceptorAdapter {
+public class LogInterceptor extends AbstractHandlerInterceptor {
 
     /**
      * 日志跟踪标识
@@ -28,7 +30,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     private static final String ID = "logId";
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean handlePreHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String reqId = request.getHeader(HttpHeader.REQUEST_ID);
         if (StringUtils.isEmpty(reqId))
             reqId = UUID.randomUUID().toString().replaceAll("-", "");
@@ -44,4 +46,5 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         LOGGER.debug("请求处理结束: {}", System.currentTimeMillis());
         MDC.remove(ID);
     }
+
 }

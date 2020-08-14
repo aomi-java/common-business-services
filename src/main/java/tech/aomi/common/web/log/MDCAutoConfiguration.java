@@ -1,4 +1,4 @@
-package tech.aomi.common.web;
+package tech.aomi.common.web.log;
 
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.context.annotation.Bean;

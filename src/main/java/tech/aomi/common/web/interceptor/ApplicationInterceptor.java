@@ -15,16 +15,16 @@ import java.lang.reflect.Method;
  *
  * @author Sean sean.snow@live.com
  */
-public class ApplicationInterceptor extends HandlerInterceptorAdapter {
+public class ApplicationInterceptor extends AbstractHandlerInterceptor {
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     public ApplicationInterceptor(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean handlePreHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
