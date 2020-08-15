@@ -8,12 +8,16 @@ import java.util.UUID;
 
 public class MDCTaskDecorator implements TaskDecorator {
 
-    private static final String ID = "logId";
+    private final String id;
+
+    public MDCTaskDecorator(String id) {
+        this.id = id;
+    }
 
     @Override
     public Runnable decorate(Runnable runnable) {
-        if (null == MDC.get(ID)) {
-            MDC.put(ID, UUID.randomUUID().toString().replaceAll("-", ""));
+        if (null == MDC.get(id)) {
+            MDC.put(id, UUID.randomUUID().toString().replaceAll("-", ""));
         }
         Map<String, String> contextMap = MDC.getCopyOfContextMap();
         return () -> {
