@@ -9,7 +9,6 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import tech.aomi.common.web.interceptor.ApplicationInterceptor;
-import tech.aomi.common.web.log.LogInterceptor;
 
 /**
  * @author Sean sean.snow@live.com
@@ -34,7 +33,6 @@ public class WebAppAutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LogInterceptor());
         registry.addInterceptor(new ApplicationInterceptor(applicationContext));
     }
 
