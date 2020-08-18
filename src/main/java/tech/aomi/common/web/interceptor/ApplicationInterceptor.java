@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
  *
  * @author Sean sean.snow@live.com
  */
-public class ApplicationInterceptor extends AbstractHandlerInterceptor {
+public class ApplicationInterceptor extends HandlerInterceptorAdapter {
 
     private final ApplicationContext applicationContext;
 
@@ -24,7 +24,7 @@ public class ApplicationInterceptor extends AbstractHandlerInterceptor {
     }
 
     @Override
-    public boolean handlePreHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
