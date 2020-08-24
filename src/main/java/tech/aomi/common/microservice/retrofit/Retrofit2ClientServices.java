@@ -2,12 +2,14 @@ package tech.aomi.common.microservice.retrofit;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 import retrofit2.Retrofit;
 import tech.aomi.common.microservice.ClientServices;
 import tech.aomi.common.web.client.retrofit2.ClientFactory;
+import tech.aomi.common.web.client.retrofit2.converter.ArgsConverterFactory;
 
 import java.net.URI;
 import java.util.*;
@@ -23,7 +25,7 @@ public class Retrofit2ClientServices implements ClientServices {
 
     private final List<Interceptor> interceptors;
 
-    private final Map<String, Retrofit> caches = new HashMap<>();
+    private final Map<String, CacheValue> caches = new HashMap<>();
 
     /**
      * 单位秒
@@ -55,10 +57,15 @@ public class Retrofit2ClientServices implements ClientServices {
 
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
+        return newInstance(instance, clazz, Collections.emptyMap());
+    }
+
+    @Override
+    public <T> T newInstance(ServiceInstance instance, Class<T> clazz, Map<String, String> headers) {
         URI uri = instance.getUri();
         String baseUrl = uri.getScheme() + "://" + instance.getServiceId() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
-        Retrofit retrofit = getRetrofit(baseUrl);
+        Retrofit retrofit = getRetrofit(baseUrl, headers);
         return retrofit.create(clazz);
     }
 
@@ -100,24 +107,42 @@ public class Retrofit2ClientServices implements ClientServices {
         return null;
     }
 
-    private Retrofit getRetrofit(String baseUrl) {
-        Retrofit retrofit = caches.get(baseUrl);
-        if (null != retrofit)
-            return retrofit;
-
-        ClientFactory factory = ClientFactory.builder()
-                .baseUrl(baseUrl)
-                .readTimeout(this.readTimeout, TimeUnit.SECONDS)
-                .writeTimeout(this.writeTimeout, TimeUnit.SECONDS);
-
-        if (!CollectionUtils.isEmpty(interceptors)) {
-            interceptors.forEach(factory::addInterceptor);
+    private Retrofit getRetrofit(String baseUrl, Map<String, String> headers) {
+        CacheValue cacheValue = caches.get(baseUrl);
+        if (null != cacheValue) {
+            return getRetrofit(cacheValue, headers);
         }
-        retrofit = factory.build();
-        caches.put(baseUrl, retrofit);
-        return retrofit;
+
+        // client
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder.readTimeout(this.readTimeout, TimeUnit.SECONDS);
+        clientBuilder.writeTimeout(this.writeTimeout, TimeUnit.SECONDS);
+        if (!CollectionUtils.isEmpty(interceptors)) {
+            interceptors.forEach(clientBuilder::addInterceptor);
+        }
+        OkHttpClient client = clientBuilder.build();
+
+
+        // Retrofit
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.baseUrl(baseUrl);
+        builder.client(client);
+        Retrofit retrofit = builder.build();
+
+        cacheValue = new CacheValue(retrofit, client);
+        caches.put(baseUrl, cacheValue);
+        return getRetrofit(cacheValue, headers);
     }
 
+    private Retrofit getRetrofit(CacheValue cacheValue, Map<String, String> headers) {
+        OkHttpClient client = cacheValue.getClient().newBuilder()
+                .addInterceptor(new HttpHeaderInterceptor(headers))
+                .build();
+
+        return cacheValue.getRetrofit().newBuilder()
+                .client(client)
+                .build();
+    }
 
 }
 
