@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import retrofit2.Retrofit;
 import tech.aomi.common.microservice.ClientServices;
 import tech.aomi.common.web.client.retrofit2.ClientFactory;
+import tech.aomi.common.web.client.retrofit2.RequestExceptionCallAdapterFactory;
 import tech.aomi.common.web.client.retrofit2.converter.ArgsConverterFactory;
 
 import java.net.URI;
@@ -126,6 +127,8 @@ public class Retrofit2ClientServices implements ClientServices {
         // Retrofit
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(baseUrl);
+        builder.addCallAdapterFactory(new RequestExceptionCallAdapterFactory());
+        builder.addConverterFactory(ArgsConverterFactory.create());
         builder.client(client);
         Retrofit retrofit = builder.build();
 
