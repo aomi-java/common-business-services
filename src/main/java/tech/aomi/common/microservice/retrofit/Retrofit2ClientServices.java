@@ -21,7 +21,9 @@ public class Retrofit2ClientServices implements ClientServices {
 
     private final DiscoveryClient discoveryClient;
 
-    private List<Interceptor> interceptors;
+    private final List<Interceptor> interceptors;
+
+    private final Map<String, Retrofit> caches = new HashMap<>();
 
     /**
      * 单位秒
@@ -53,15 +55,10 @@ public class Retrofit2ClientServices implements ClientServices {
 
     @Override
     public <T> T newInstance(ServiceInstance instance, Class<T> clazz) {
-        return newInstance(instance, clazz, Collections.emptyMap());
-    }
-
-    @Override
-    public <T> T newInstance(ServiceInstance instance, Class<T> clazz, Map<String, String> headers) {
         URI uri = instance.getUri();
-        String baseUrl = uri.getScheme() + "://" + uri.getHost() + "/";
+        String baseUrl = uri.getScheme() + "://" + instance.getServiceId() + "/";
         LOGGER.debug("baseUrl: {}", baseUrl);
-        Retrofit retrofit = getRetrofit(headers, baseUrl);
+        Retrofit retrofit = getRetrofit(baseUrl);
         return retrofit.create(clazz);
     }
 
@@ -103,17 +100,22 @@ public class Retrofit2ClientServices implements ClientServices {
         return null;
     }
 
-    private Retrofit getRetrofit(Map<String, String> headers, String baseUrl) {
+    private Retrofit getRetrofit(String baseUrl) {
+        Retrofit retrofit = caches.get(baseUrl);
+        if (null != retrofit)
+            return retrofit;
+
         ClientFactory factory = ClientFactory.builder()
                 .baseUrl(baseUrl)
-                .addInterceptor(new HttpHeaderInterceptor(headers))
                 .readTimeout(this.readTimeout, TimeUnit.SECONDS)
                 .writeTimeout(this.writeTimeout, TimeUnit.SECONDS);
 
         if (!CollectionUtils.isEmpty(interceptors)) {
             interceptors.forEach(factory::addInterceptor);
         }
-        return factory.build();
+        retrofit = factory.build();
+        caches.put(baseUrl, retrofit);
+        return retrofit;
     }
 
 
