@@ -74,14 +74,13 @@ public class LogIdAutoConfiguration extends OncePerRequestFilter {
         long start = 0L;
         long end = System.currentTimeMillis();
         if (null == startStr || startStr.isEmpty()) {
-            LOGGER.debug("请求处理结束: {}, {}", end, request.getRequestURI());
-        } else {
-            try {
-                start = Long.parseLong(MDC.get(START_AT));
-            } catch (Exception ignored) {
-            }
-            LOGGER.debug("请求处理结束: {}, 耗时: {}, {}", end, end - start, request.getRequestURI());
+            return;
         }
+        try {
+            start = Long.parseLong(MDC.get(START_AT));
+        } catch (Exception ignored) {
+        }
+        LOGGER.debug("请求处理结束: {}, 耗时: {}, {}", end, end - start, request.getRequestURI());
         MDC.remove(START_AT);
         MDC.remove(ID);
     }
