@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -46,6 +47,7 @@ public class LogIdAutoConfiguration extends OncePerRequestFilter {
             LOGGER.debug("请求处理开始: {}, {}", start, request.getRequestURI());
             MDC.put(START_AT, start + "");
             response.setHeader(HttpHeader.REQUEST_ID, reqId);
+            request.setAttribute(HttpHeader.REQUEST_ID, reqId);
         }
 
         try {
@@ -70,12 +72,14 @@ public class LogIdAutoConfiguration extends OncePerRequestFilter {
             return;
         }
 
-        String startStr = MDC.get(START_AT);
-        long start = 0L;
-        long end = System.currentTimeMillis();
-        if (null == startStr || startStr.isEmpty()) {
+        Object reqId = request.getAttribute(HttpHeader.REQUEST_ID);
+        String mdcId = MDC.get(ID);
+        if (!Objects.equals(reqId, mdcId)) {
             return;
         }
+
+        long start = 0L;
+        long end = System.currentTimeMillis();
         try {
             start = Long.parseLong(MDC.get(START_AT));
         } catch (Exception ignored) {
