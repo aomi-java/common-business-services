@@ -1,7 +1,5 @@
 package tech.aomi.common.microservice;
 
-import org.springframework.cloud.client.ServiceInstance;
-
 import java.util.List;
 import java.util.Map;
 
@@ -12,16 +10,10 @@ public interface ClientServices {
 
     List<String> getServices();
 
-    <T> T newInstance(ServiceInstance instance, Class<T> clazz);
+    boolean exists(String serviceId);
 
-    <T> T newInstance(ServiceInstance instance, Class<T> clazz, Map<String, String> headers);
+    <T> T newInstance(String serviceId, Class<T> clazz);
 
-    /**
-     * 获取一个随机实例
-     *
-     * @param name 服务名称
-     * @return 服务实例
-     */
-    ServiceInstance getRandomInstance(String name);
+    <T> T newInstance(String serviceId, Class<T> clazz, Map<String, String> headers);
 
 }
